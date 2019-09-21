@@ -23,3 +23,24 @@ workspace_binary(
     name = "kazel",
     cmd = "//cmd/kazel",
 )
+
+filegroup(
+    name = "package-srcs",
+    srcs = glob(["**"], exclude=["bazel-*/**", ".git/**"]),
+    tags = ["automanaged"],
+    visibility = ["//visibility:private"],
+)
+
+filegroup(
+    name = "all-srcs",
+    srcs = [
+        ":package-srcs",
+        "//cmd/kazel:all-srcs",
+        "//defs:all-srcs",
+        "//hack:all-srcs",
+        "//tools/build_tar:all-srcs",
+        "//verify:all-srcs",
+    ],
+    tags = ["automanaged"],
+    visibility = ["//visibility:public"],
+)
