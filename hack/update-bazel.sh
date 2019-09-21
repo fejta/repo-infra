@@ -43,7 +43,5 @@ fi
 export GO111MODULE=on
 export GOPROXY=https://proxy.golang.org
 export GOSUMDB=sum.golang.org
-set -o xtrace
-pwd
 "$gazelle" fix --external=external
 "$kazel" --cfg-path=./hack/.kazelcfg.json

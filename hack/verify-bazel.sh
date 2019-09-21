@@ -22,13 +22,10 @@ if [[ -n "${TEST_WORKSPACE:-}" ]]; then # Running inside bazel
 elif ! command -v bazel &> /dev/null; then
   echo "Install bazel at https://bazel.build" >&2
   exit 1
-elif ! bazel query @//:all-srcs union @io_k8s_repo_infra//hack:update-bazel &>/dev/null; then
-  echo "ERROR: bazel rules need bootstrapping. Run hack/update-bazel.sh" >&2
-  exit 1
 else
   (
     set -o xtrace
-    bazel test --test_output=streamed @io_k8s_repo_infra//hack:verify-bazel
+    bazel test --test_output=streamed //hack:verify-bazel
   )
   exit 0
 fi
@@ -36,6 +33,9 @@ fi
 gazelle=$1
 kazel=$2
 
+export GO111MODULE=on
+export GOPROXY=https://proxy.golang.org
+export GOSUMDB=sum.golang.org
 gazelle_diff=$("$gazelle" fix --mode=diff --external=external || true)
 kazel_diff=$("$kazel" --dry-run --print-diff --cfg-path=./hack/.kazelcfg.json 2>&1 || true)
 
