@@ -35,13 +35,20 @@ workspace_binary(
     cmd = "@com_github_bazelbuild_buildtools//buildifier",
 )
 
-load("@bazel_gazelle//:def.bzl", "gazelle")
-
-gazelle(name = "gazelle")
+workspace_binary(
+    name = "gazelle",
+    cmd = "@com_github_bazelbuild_bazel_gazelle//cmd/gazelle",
+)
 
 filegroup(
     name = "package-srcs",
-    srcs = glob(["**"], exclude=["bazel-*/**", ".git/**"]),
+    srcs = glob(
+        ["**"],
+        exclude = [
+            "bazel-*/**",
+            ".git/**",
+        ],
+    ),
     tags = ["automanaged"],
     visibility = ["//visibility:private"],
 )

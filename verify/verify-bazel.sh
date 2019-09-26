@@ -17,14 +17,22 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
+echo "ERICKo"
 cd $(git rev-parse --show-toplevel)
-gazelle_diff=$(bazel run //:gazelle -- fix -mode=diff)
-kazel_diff=$(bazel run //:kazel -- -dry-run -print-diff -cfg-path=./.kazelcfg.json)
+echo "ERICKA"
+gazelle_diff=$(bazel run //:gazelle -- fix -mode=diff || true)
+echo "ERICKB"
+kazel_diff=$(bazel run //:kazel -- -dry-run -print-diff -cfg-path=./.kazelcfg.json || true)
 
+echo "ERICKC"
 if [[ -n "${gazelle_diff}" || -n "${kazel_diff}" ]]; then
+  echo "ERICKD"
   echo "${gazelle_diff}"
+  echo "ERICKE"
   echo "${kazel_diff}"
+  echo "ERICKF"
   echo
   echo "Run ./verify/update-bazel.sh"
   exit 1
 fi
+echo "ERICKg"
